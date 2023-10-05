@@ -2,7 +2,7 @@
 
 Next Project focused on connecting the NASA API with a NextJS APP to get photos of some Mars rovers (Curiosity, Opportunity and Spirit).
 
-## Tabla de Contenidos
+## Table of Contents
 
 - [Technical decisions](#decisions)
 - [Installation](#installation)
