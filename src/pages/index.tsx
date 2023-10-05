@@ -10,7 +10,7 @@ export default function Home() {
           content='Frontend app to get Mars photos from the official NASA API'
         />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link rel='icon' href='/assets/favicon.ico' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
       <h1>Started Scafold</h1>
     </>
