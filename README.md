@@ -1,4 +1,4 @@
-# nasa-mars-photos
+# NEXTJS NASA API PHOTOS
 
 Next Project focused on connecting the NASA API with a NextJS APP to get photos of some Mars rovers (Curiosity, Opportunity and Spirit).
 
@@ -24,6 +24,8 @@ This project is composed by:
 
 - **PNPM** as default package manager
 
+- API tested with **Jest**
+
 ## Installation & dev server
 
 ```bash
@@ -33,3 +35,5 @@ This project is composed by:
 ```
 
 ## API
+
+Swagger documentation: [ Swagger ](https://app.swaggerhub.com/apis/SEBASCAS96/api/1.0.0)

@@ -22,7 +22,8 @@ const config = {
     '!<rootDir>/*.config.js',
     '!<rootDir>/coverage/**',
   ],
-  testEnvironment: 'jest-environment-jsdom',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  testEnvironment: 'node',
 };
 
 export default createJestConfig(config);

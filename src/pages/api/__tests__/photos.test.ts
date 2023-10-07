@@ -1,74 +1,94 @@
-import { mocked } from 'jest-mock';
-import { NextApiRequest, NextApiResponse } from 'next';
-import handler from '../photos';
-import { HttpStatus } from '@/pages/constants/httpStatus';
+import { createMocks, RequestOptions, RequestMethod } from 'node-mocks-http';
+import handlePhotos from '../photos';
+import { HttpStatus, HttpMethods } from '@/constants/http';
+import fetchMock from 'jest-fetch-mock';
 
-jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const handleBuildRequestOptions = (
+  method: RequestMethod,
+  query: Record<string, string>
+): RequestOptions => {
+  const { rover, page, dateType, date } = query;
+  return {
+    method,
+    query: {
+      rover,
+      page,
+      dateType,
+      date,
+    },
+  };
+};
 
-describe('Photos API test suite', () => {
-  let mockRequest: Partial<NextApiRequest>;
-  let mockResponse: Partial<NextApiResponse>;
-
+describe('Photos API test suite - /api/photos', () => {
   beforeEach(() => {
-    mockRequest = {
-      query: {
+    fetchMock.doMock();
+  });
+
+  afterEach(() => {
+    fetchMock.resetMocks();
+  });
+
+  it('should handle successful API response', async () => {
+    const { req, res } = createMocks(
+      handleBuildRequestOptions(HttpMethods.GET, {
         rover: 'Curiosity',
         page: '1',
         dateType: 'earth_date',
         date: '2016-09-15',
-      },
-    };
+      })
+    );
 
-    mockResponse = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn(),
-    };
+    fetchMock.mockResolvedValue({
+      status: HttpStatus.OK,
+      json: async () => ({
+        photos: [
+          { id: 1, url: 'photo1.jpg' },
+          { id: 2, url: 'photo2.jpg' },
+        ],
+      }),
+    } as Response);
+
+    await handlePhotos(req, res);
+    expect(res._getStatusCode()).toBe(HttpStatus.OK);
+    const responseData = JSON.parse(res._getData() as string);
+    expect(responseData).toHaveProperty('photos');
+    expect(responseData.photos.length).toBe(2);
   });
 
-  it('should handle valid request', async () => {
-    mocked(fetch).mockReturnValueOnce(
-      Promise.resolve({
-        status: HttpStatus.OK,
-        json: async () => ({ mockData: 'mockData' }),
-      } as Response)
+  it('should handle empty query params', async () => {
+    const { req, res } = createMocks(
+      handleBuildRequestOptions(HttpMethods.GET, {})
     );
 
-    await handler(
-      mockRequest as NextApiRequest,
-      mockResponse as NextApiResponse
-    );
+    fetchMock.mockResolvedValue({
+      status: HttpStatus.BAD_REQUEST,
+    } as Response);
 
-    expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.OK);
-    expect(mockResponse.json).toHaveBeenCalledWith({
-      mockData: 'mockData',
-    });
+    await handlePhotos(req, res);
+    expect(res._getStatusCode()).toBe(HttpStatus.BAD_REQUEST);
+    const responseData = JSON.parse(res._getData() as string);
+    expect(responseData.error).toBe('Invalid request parameters.');
   });
 
-  it('should handle invalid request parameters', async () => {
-    mockRequest = {}; // Simular una solicitud con parámetros faltantes
-
-    await handler(
-      mockRequest as NextApiRequest,
-      mockResponse as NextApiResponse
+  it('should handle when date type different than date value', async () => {
+    const { req, res } = createMocks(
+      handleBuildRequestOptions(HttpMethods.GET, {
+        rover: 'Curiosity',
+        page: '1',
+        dateType: 'sun',
+        date: '2016-09-15',
+      })
     );
 
-    expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.BAD_REQUEST);
-    expect(mockResponse.json).toHaveBeenCalledWith({
-      error: 'Invalid request parameters',
-    });
-  });
+    fetchMock.mockResolvedValue({
+      status: HttpStatus.BAD_REQUEST,
+    } as Response);
 
-  it('should handle invalid date type', async () => {
-    mockRequest.query!.dateType = 'invalidDateType';
-
-    await handler(
-      mockRequest as NextApiRequest,
-      mockResponse as NextApiResponse
+    await handlePhotos(req, res);
+    expect(res._getStatusCode()).toBe(HttpStatus.BAD_REQUEST);
+    const responseData = JSON.parse(res._getData() as string);
+    expect(responseData.error).toBe(
+      'Invalid date type or value for the given data type.'
     );
-
-    expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.BAD_REQUEST);
-    expect(mockResponse.json).toHaveBeenCalledWith({
-      error: 'Invalid date type or value for the given data type.',
-    });
   });
 });

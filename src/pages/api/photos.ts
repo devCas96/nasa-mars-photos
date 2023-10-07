@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { PhotoList } from '../../../types/types';
 import { isValidEarthDate, isValidSunDate } from '@/utils/checkers';
-import { API_KEY, BASE_URL } from '@/pages/constants/global';
-import { HttpStatus } from '../constants/httpStatus';
+import { API_KEY, BASE_URL } from '@/constants/global';
+import { HttpStatus } from '@/constants/http';
 
 interface IError {
   error: string;
@@ -56,7 +56,7 @@ export default async function handler(
     if (!rover || !page || !dateType || !date) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ error: 'Invalid request parameters' });
+        .json({ error: 'Invalid request parameters.' });
     }
 
     try {
@@ -67,11 +67,10 @@ export default async function handler(
         date as string
       );
       const response = await fetch(endpoint);
-
       if (response.status !== HttpStatus.OK) {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ error: 'Something went wrong, be sure api params are okay' });
+          .json({ error: 'Something went wrong connecting with NASA API.' });
       }
 
       const data: PhotoList = await response.json();
@@ -79,13 +78,13 @@ export default async function handler(
       res.status(HttpStatus.OK).json(data);
     } catch (error) {
       const errorMessage =
-        (error as Error).message || 'An unknown error occurred';
+        (error as Error).message || 'An unknown error occurred.';
       return res.status(HttpStatus.BAD_REQUEST).json({ error: errorMessage });
     }
   } catch (err) {
     console.error('Error fetching data:', err);
     res
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .json({ error: 'Internal Server Error' });
+      .json({ error: 'Something went wrong connecting with NASA API.' });
   }
 }

@@ -1,3 +1,10 @@
+export enum HttpMethods {
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  DELETE = 'DELETE',
+}
+
 export enum HttpStatus {
   OK = 200,
   CREATED = 201,
