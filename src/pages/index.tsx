@@ -1,3 +1,5 @@
+import SectionHome from '@/components/organisms/section-home/section-home';
+import Layout from '@/components/templates/page-layout/layout';
 import Head from 'next/head';
 
 export default function Home() {
@@ -12,7 +14,9 @@ export default function Home() {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <h1>Started Scafold</h1>
+      <Layout>
+        <SectionHome />
+      </Layout>
     </>
   );
 }

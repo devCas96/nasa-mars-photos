@@ -1,0 +1,10 @@
+.home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  width: 95%;
+  margin: 0 auto;
+  text-align: center;
+  min-height: calc(100vh - 100px);
+}
