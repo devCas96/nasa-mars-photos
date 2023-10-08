@@ -22,9 +22,11 @@ This project is composed by:
 
 - Fonts works as **Variable fonts** which is a new specification for avoid to having multiple files with different sizes, styles, and weight (A good option for performance, flexibility, and personalization).
 
-- **PNPM** as default package manager
+- **PNPM** as default package manager.
 
-- API tested with **Jest**
+- API tested with **Jest**.
+
+- Some components were builded with **Compound components** design pattern to keep components structure, improve legibility and separate responsabilities.
 
 ## Installation & dev server
 
