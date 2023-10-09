@@ -1,6 +1,6 @@
 'use client';
 
-import React, { type FC, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import Header from '@/components/molecules/header/header';
 import Stars from '@/components/molecules/stars/stars';
 import { Rovers } from '@/constants/dummy';
@@ -9,11 +9,11 @@ interface Props {
   children?: ReactNode;
 }
 
-const Layout: FC<Props> = ({ children }) => (
+const Layout = ({ children }: Props) => (
   <>
     <Stars />
     <Header>
-      <Header.Navigation items={Object.keys(Rovers)} />
+      <Header.Navigation items={Object.values(Rovers)} />
     </Header>
     <main>{children}</main>
   </>

@@ -1,24 +1,25 @@
-export interface PhotoList {
-  photos: Photo[];
+export interface IPhotoList {
+  photos: IPhoto[];
 }
-export interface Photo {
+
+export interface IPhoto {
   id: number;
   sol: number;
-  camera: PhotoCamera;
+  camera: IPhotoCamera;
   img_src: string;
   earth_date: Date;
-  rover: Rover;
+  rover: IRover;
   base64?: string;
 }
 
-export interface PhotoCamera {
+export interface IPhotoCamera {
   id: number;
   name: string;
   rover_id: number;
   full_name: string;
 }
 
-export interface Rover {
+export interface IRover {
   id: number;
   name: string;
   landing_date: Date;
@@ -27,10 +28,10 @@ export interface Rover {
   max_sol: number;
   max_date: Date;
   total_photos: number;
-  cameras: CameraElement[];
+  cameras: ICameraElement[];
 }
 
-export interface CameraElement {
+export interface ICameraElement {
   name: string;
   full_name: string;
 }

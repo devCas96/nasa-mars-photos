@@ -11,7 +11,7 @@
 
 .header__logo {
   text-align: center;
-  font-family: 'Montserrat-Italic';
+  font-family: var(--font-montserrat-italic);
   font-size: 1.5rem;
   font-weight: 700;
   margin: 10px 0;
@@ -38,7 +38,7 @@
   border-radius: 10px;
   background-color: transparent;
   color: #fff;
-  font-family: 'Montserrat';
+  font-family: var(--font-montserrat-base);
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;

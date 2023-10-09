@@ -6,14 +6,15 @@
   --default-background-color: #000000;
   --default-font-weight: 400;
   --default-font-stretch: 100%;
-  --angle: 45deg;
   --default-header-height: 90px;
+  --font-montserrat-base: 'Montserrat', sans-serif;
+  --font-montserrat-italic: 'Montserrat-Italic', sans-serif;
   --loader-background-color: #eeeeee;
   --loader-highlight-color: #dedede;
 }
 
 body {
-  font-family: 'Montserrat', sans-serif; /* Use sans-serif as a fallback */
+  font-family: var(--font-montserrat-base);
   min-height: 100vh;
   background-color: var(--default-background-color);
   color: var(--default-font-color);
@@ -30,7 +31,7 @@ main {
 }
 
 h1 {
-  font-family: 'Montserrat-Italic', sans-serif;
+  font-family: var(--font-montserrat-italic);
   font-size: 2.5rem;
   font-weight: 900;
 }

@@ -1,16 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PhotoList } from '../../../types/types';
+import { IPhotoList } from '../../types/types';
 import { isValidEarthDate, isValidSunDate } from '@/utils/checkers';
 import { API_KEY, BASE_URL } from '@/constants/global';
 import { HttpStatus } from '@/constants/http';
+import { DateTypes } from '@/constants/dummy';
 
 interface IError {
   error: string;
-}
-
-enum DateTypes {
-  EARTH = 'earth_date',
-  SUN = 'sun',
 }
 
 /**
@@ -26,7 +22,7 @@ const buildNasaEndpoint = (
   rover: string,
   page: string,
   dateType: string,
-  dateString: string
+  dateString: string,
 ): string => {
   const isValidDate =
     (dateType === DateTypes.EARTH && isValidEarthDate(dateString)) ||
@@ -43,12 +39,12 @@ const buildNasaEndpoint = (
 /**
  * Request handler for the NASA photo API.
  * @param {NextApiRequest} req - The incoming HTTP request.
- * @param {NextApiResponse<PhotoList | IError>} res - The HTTP response object.
+ * @param {NextApiResponse<IPhotoList | IError>} res - The HTTP response object.
  * @returns {Promise<void>} - A promise that resolves once the response is sent.
  */
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<PhotoList | IError>
+  res: NextApiResponse<IPhotoList | IError>,
 ): Promise<void> {
   try {
     const { rover, page, dateType, date } = req.query;
@@ -64,7 +60,7 @@ export default async function handler(
         rover as string,
         page as string,
         dateType as string,
-        date as string
+        date as string,
       );
       const response = await fetch(endpoint);
       if (response.status !== HttpStatus.OK) {
@@ -73,9 +69,9 @@ export default async function handler(
           .json({ error: 'Something went wrong connecting with NASA API.' });
       }
 
-      const data: PhotoList = await response.json();
+      const data: IPhotoList = await response.json();
 
-      res.status(HttpStatus.OK).json(data);
+      return res.status(HttpStatus.OK).json(data);
     } catch (error) {
       const errorMessage =
         (error as Error).message || 'An unknown error occurred.';
@@ -83,7 +79,7 @@ export default async function handler(
     }
   } catch (err) {
     console.error('Error fetching data:', err);
-    res
+    return res
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
       .json({ error: 'Something went wrong connecting with NASA API.' });
   }
