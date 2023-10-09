@@ -10,7 +10,6 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'next/core-web-vitals',
-    'prettier',
   ],
   overrides: [
     {
@@ -34,5 +33,9 @@ module.exports = {
     'linebreak-style': 0,
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
+    'padding-line-between-statements': [
+      'error',
+      { 'blankLine': 'always', 'prev': 'function', 'next': '*' }
+    ]
   },
 };

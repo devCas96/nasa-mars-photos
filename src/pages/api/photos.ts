@@ -24,6 +24,7 @@ const buildNasaEndpoint = (
   dateType: string,
   dateString: string,
 ): string => {
+
   const isValidDate =
     (dateType === DateTypes.EARTH && isValidEarthDate(dateString)) ||
     (dateType === DateTypes.SUN && isValidSunDate(dateString));
@@ -33,6 +34,7 @@ const buildNasaEndpoint = (
   }
 
   const dateParam = dateType === DateTypes.SUN ? 'sol' : DateTypes.EARTH;
+
   return `${BASE_URL}${rover}/photos?page=${page}&${dateParam}=${dateString}&api_key=${API_KEY}`;
 };
 
