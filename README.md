@@ -18,15 +18,26 @@ This project is composed by:
 
 - **Typescript** to enforce a code style based on types.
 
+- **SWR** to client-side fetching and catching info.
+
+- Some components were builded with **Compound components** design pattern to keep components structure, improve legibility and separate responsabilities.
+
+- **HOC component** implemented just for wrapping the pages layout.
+
 - Only **HTML5**, **CSS3**, and **TSX**, Yup, in this case It's absolutely unnecessary to implement the complexity of a preprocessor such as Sass or Less because It's a small project. 😼
 
 - Fonts works as **Variable fonts** which is a new specification for avoid to having multiple files with different sizes, styles, and weight (A good option for performance, flexibility, and personalization).
+
+- Rover's images were rendered with the help of a base64 version of itselves, there are an utility using **Plaiceholder**.
 
 - **PNPM** as default package manager.
 
 - API tested with **Jest**.
 
-- Some components were builded with **Compound components** design pattern to keep components structure, improve legibility and separate responsabilities.
+### NOTES: 
+- Prefetching of rovers data with Static Site Generation and after that, the fetching continues with *SWR* from the client.
+- I avoid using *Suspense API* because React recommends avoiding using Suspense with fetching libraries such as *SWR*
+
 
 ## Installation & dev server
 
@@ -34,6 +45,11 @@ This project is composed by:
     git clone git@github.com:devCas96/nasa-mars-photos.git && cd nasa-mars-photos
     pnpm install
     pnpm next dev
+```
+## To prefetching data with SSG
+
+```bash
+    pnpm build && pnpm next dev
 ```
 
 ## API
