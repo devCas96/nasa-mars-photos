@@ -4,6 +4,7 @@
  * @returns {boolean} - True if the date is valid; otherwise, false.
  */
 export const isValidEarthDate = (dateString: string): boolean => {
+
   const regEx = /^\d{4}-\d{2}-\d{2}$/;
   const date = new Date(dateString);
   const numericDate = date.getTime();
