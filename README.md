@@ -5,7 +5,9 @@ Next Project focused on connecting the NASA API with a NextJS APP to get photos 
 ## Table of Contents
 
 - [Technical decisions](#decisions)
-- [Installation](#installation)
+- [Notes](#notes)
+- [Installation](#installation--dev-server)
+- [Prefecth data with SSG](#to-prefetching-data-with-ssg)
 - [API](#api)
 
 ## Technical decisions
