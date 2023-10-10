@@ -14,7 +14,7 @@ Next Project focused on connecting the NASA API with a NextJS APP to get photos 
 
 This project is composed by:
 
-- **NextJs** (to take advantage about SSR or SSG as needed) and 'Cause is a plus in challenge. 😄
+- **Next.js** (to take advantage about SSR or SSG as needed) and 'Cause is a plus in challenge. 😄
 
 - **Atomic Design** (focused on reusability and to compose big components by smaller ones).
 
@@ -38,7 +38,7 @@ This project is composed by:
 
 ### NOTES: 
 - Prefetching of rovers data with Static Site Generation and after that, the fetching continues with *SWR* from the client.
-- I avoid using *Suspense API* because React recommends avoiding using Suspense with fetching libraries such as *SWR*
+- I avoid using *Suspense API* because React recommends avoiding using it with libraries such as *Next.js* or *SWR*. [ Read more ](https://react.dev/blog/2022/03/29/react-v18#suspense-in-data-frameworks)
 
 
 ## Installation & dev server
