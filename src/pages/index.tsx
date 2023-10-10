@@ -1,8 +1,11 @@
+import withLayout from '@/components/_hoc/with-layout';
 import SectionHome from '@/components/organisms/section-home/section-home';
-import Layout from '@/components/templates/page-layout/layout';
 import Head from 'next/head';
 
 export default function Home() {
+
+  const WrappedHome = withLayout(SectionHome);
+
   return (
     <>
       <Head>
@@ -14,9 +17,7 @@ export default function Home() {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <Layout>
-        <SectionHome />
-      </Layout>
+      <WrappedHome />
     </>
   );
 }
