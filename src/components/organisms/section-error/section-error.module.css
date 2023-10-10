@@ -1,0 +1,10 @@
+.sectionError{
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.sectionError__message{
+  font-size: 1.3rem;
+  text-align: center;
+}
