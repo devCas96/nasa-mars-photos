@@ -9,11 +9,13 @@ interface Props {
 const ErrorComponent = ({ message }: Props) => {
   return (
     <section className={styles.sectionError}>
-      <Image src={RoverCartoon} alt='rover not results found.' sizes="60vw"
+      <Image src={RoverCartoon} alt='Rover error.'
         style={{
-          width: '60%',
+          width: '100%',
+          maxWidth: '400px',
           height: 'auto',
         }}
+        priority
       />
       <p className={styles.sectionError__message}>{message}</p>
     </section>);

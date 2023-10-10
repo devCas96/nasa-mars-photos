@@ -8,13 +8,14 @@ interface HeaderNavigationProps {
   items: string[];
 }
 
+const headerTitle = 'MARS ROVERS';
 const buildRoverUrl = (roverName: string): string =>
   `/rover/${roverName.toLowerCase()}`;
 
 const Header = ({ children }: HeaderProps) => (
   <header className={styles.header}>
     <Link href="/" className={styles.header__logo}>
-      <p className={styles.header__title}>MARS ROVERS</p>
+      <p className={styles.header__title}>{headerTitle}</p>
     </Link>
     {children}
   </header>

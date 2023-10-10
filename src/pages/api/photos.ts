@@ -4,6 +4,7 @@ import { isValidEarthDate, isValidSunDate } from '@/utils/checkers';
 import { API_KEY, BASE_URL } from '@/constants/global';
 import { HttpStatus } from '@/constants/http';
 import { DateTypes } from '@/constants/dummy';
+import { photoListToBase64 } from '@/utils/get-base64';
 
 interface IError {
   error: string;
@@ -72,8 +73,9 @@ export default async function handler(
       }
 
       const data: IPhotoList = await response.json();
+      const withBase64 = await photoListToBase64(data);
 
-      return res.status(HttpStatus.OK).json(data);
+      return res.status(HttpStatus.OK).json(withBase64);
     } catch (error) {
       const errorMessage =
         (error as Error).message || 'An unknown error occurred.';

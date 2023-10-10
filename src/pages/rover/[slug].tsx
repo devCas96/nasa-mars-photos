@@ -1,42 +1,40 @@
-import withLayout from '@/components/_hoc/with-layout';
-import Loader from '@/components/atoms/loader/loader';
-import ErrorComponent from '@/components/organisms/section-error/section-error';
-import Layout from '@/components/templates/page-layout/layout';
-import { DateTypes, Rovers } from '@/constants/dummy';
-import { BASE_APP_URL } from '@/constants/global';
-import { IPhotoList } from '@/types/types';
-import { formatDate, getCurrentDate } from '@/utils/date-handler';
 import { GetStaticProps } from 'next';
+import { SWRConfig } from 'swr';
+import { DateTypes, Rovers } from '@/constants/dummy';
+import { formatDate, getCurrentDate } from '@/utils/date-handler';
+import { API_KEY, BASE_URL } from '@/constants/global';
+import { IPhotoList } from '@/types/types';
+import SectionRoverImages from '@/components/organisms/section-rover-images/section-rover-images';
+import withLayout from '@/components/_hoc/with-layout';
+import { photoListToBase64 } from '@/utils/get-base64';
 
 interface Props {
-  photoList?: IPhotoList;
+  fallbackData: {
+    photoList: IPhotoList;
+  };
 }
 
-const Rover = ({ photoList }: Props) => {
-  const WrappedErrorComponent = withLayout(ErrorComponent);
-  const WrappedLoaderComponent = withLayout(Loader);
-  if (!photoList) {
-    return <WrappedLoaderComponent />;
-  }
+const Rover = ({ fallbackData }: Props) => {
 
-  if (photoList.photos.length === 0) {
-    return <WrappedErrorComponent message='Ups! No results found with those search params.' />;
-  }
+  const SWRConfigComponent = () => {
+    return (<SWRConfig value={{ fallbackData: fallbackData }}>
+      <SectionRoverImages />
+    </SWRConfig>);
+  };
+
+  const WrappedSWRConfig = withLayout(SWRConfigComponent);
 
   return (
-    <Layout>
-      <h1>Fetched!</h1>
-    </Layout>
+    <WrappedSWRConfig />
   );
 };
 
 export async function getStaticPaths() {
 
   const paths = Object.values(Rovers).map((slug) => {
-    const lowerRover = slug.toLowerCase();
-
+    const lowerCaseRoverSlug = slug.toLowerCase();
     return {
-      params: { slug: lowerRover },
+      params: { slug: lowerCaseRoverSlug },
     };
   });
 
@@ -44,6 +42,7 @@ export async function getStaticPaths() {
     paths,
     fallback: false,
   };
+
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -56,13 +55,15 @@ export const getStaticProps: GetStaticProps = async (context) => {
     date: formatDate(getCurrentDate()),
   };
 
-  const endpoint = `${BASE_APP_URL}api/photos?rover=${rover}&page=${page}&dateType=${dateType}&date=${date}`;
+  const endpoint = `${BASE_URL}${rover}/photos?page=${page}&${dateType}=${date}&api_key=${API_KEY}`;
   const response = await fetch(endpoint);
   const photoList: IPhotoList = await response.json();
-
+  const withBase64 = await photoListToBase64(photoList);
   return {
     props: {
-      photoList,
+      fallbackData: {
+        photoList: withBase64,
+      },
     },
   };
 };
