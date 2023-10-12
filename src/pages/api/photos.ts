@@ -5,6 +5,7 @@ import { API_KEY, BASE_URL } from '@/constants/global';
 import { HttpStatus } from '@/constants/http';
 import { DateTypes } from '@/constants/dummy';
 import { photoListToBase64 } from '@/utils/get-base64';
+import { BackErrors } from '@/constants/errors';
 
 interface IError {
   error: string;
@@ -15,7 +16,8 @@ interface IError {
  * @param {string} rover - The name of the rover.
  * @param {string} page - The page number for pagination.
  * @param {string} dateType - The type of date ('earth_date' or 'sun').
- * @param {string} dateString - The date string (either in 'YYYY-MM-DD' or as a number for 'sun').
+ * @param {string} dateString - The date string (either in 'YYYY-MM-DD' or as a string number for 'sun').
+ * @param {string} camera - The type of camera.
  * @returns {string} - The constructed API endpoint.
  * @throws {Error} - Throws an error if the date type or value is invalid.
  */
@@ -24,6 +26,7 @@ const buildNasaEndpoint = (
   page: string,
   dateType: string,
   dateString: string,
+  camera?: string
 ): string => {
 
   const isValidDate =
@@ -34,9 +37,10 @@ const buildNasaEndpoint = (
     throw new Error('Invalid date type or value for the given data type.');
   }
 
-  const dateParam = dateType === DateTypes.SUN ? 'sol' : DateTypes.EARTH;
+  const dateParam = dateType === DateTypes.SUN ? '&sol=' : `&${DateTypes.EARTH}=`;
+  const cameraParam = camera ? `&camera=${camera.toLowerCase()}` : '';
 
-  return `${BASE_URL}${rover}/photos?page=${page}&${dateParam}=${dateString}&api_key=${API_KEY}`;
+  return `${BASE_URL}${rover}/photos?page=${page}${dateParam}${dateString}${cameraParam}&api_key=${API_KEY}`;
 };
 
 /**
@@ -50,12 +54,12 @@ export default async function handler(
   res: NextApiResponse<IPhotoList | IError>,
 ): Promise<void> {
   try {
-    const { rover, page, dateType, date } = req.query;
+    const { rover, page, dateType, date, camera } = req.query;
 
     if (!rover || !page || !dateType || !date) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ error: 'Invalid request parameters.' });
+        .json({ error: BackErrors.WRONG_PARAMS });
     }
 
     try {
@@ -64,12 +68,13 @@ export default async function handler(
         page as string,
         dateType as string,
         date as string,
+        camera as string
       );
       const response = await fetch(endpoint);
       if (response.status !== HttpStatus.OK) {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ error: 'Something went wrong connecting with NASA API.' });
+          .json({ error: BackErrors.SERVER_ERROR });
       }
 
       const data: IPhotoList = await response.json();
@@ -78,13 +83,13 @@ export default async function handler(
       return res.status(HttpStatus.OK).json(withBase64);
     } catch (error) {
       const errorMessage =
-        (error as Error).message || 'An unknown error occurred.';
+        (error as Error).message || BackErrors.UNKNOW_ERROR;
       return res.status(HttpStatus.BAD_REQUEST).json({ error: errorMessage });
     }
   } catch (err) {
     console.error('Error fetching data:', err);
     return res
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .json({ error: 'Something went wrong connecting with NASA API.' });
+      .json({ error: BackErrors.SERVER_ERROR });
   }
 }
