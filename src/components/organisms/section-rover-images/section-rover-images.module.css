@@ -1,0 +1,17 @@
+.section-images {
+  width: 100%;
+  min-height: 100%;
+}
+
+.section-images__input {
+  max-width: 200px;
+  padding: 4px 10px;
+  background-color: rgba(165, 42, 42, 0.4);
+}
+
+.section-images__button {
+  cursor: pointer;
+  margin: 20px auto;
+  min-height: 35px;
+  display: block;
+}

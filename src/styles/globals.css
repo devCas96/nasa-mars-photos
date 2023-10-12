@@ -1,19 +1,115 @@
-* {
-  box-sizing: border-box;
-  padding: 0;
+@import url('./fonts.css');
+@import url('./reset.css');
+
+:root {
+  --max-width: 1250px;
+  --default-font-color: #ffffff;
+  --default-background-color: #000000;
+  --default-font-weight: 400;
+  --default-font-stretch: 100%;
+  --font-montserrat-base: 'Montserrat', sans-serif;
+  --font-montserrat-italic: 'Montserrat-Italic', sans-serif;
+  --loader-background-color: #eeeeee;
+  --loader-highlight-color: #dedede;
+}
+
+body {
+  font-family: var(--font-montserrat-base);
+  min-height: 100vh;
+  background-color: var(--default-background-color);
+  overflow-x: hidden;
+  color: var(--default-font-color);
+  background: linear-gradient(0deg, rgba(97, 65, 60, 1) 0%, rgba(97, 65, 60, 0.5130427170868348) 84%, rgba(0, 0, 24, 0.6867121848739496) 100%);
+  transition: background 1s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+
+main {
+  padding-top: 120px;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+
+h1 {
+  font-family: var(--font-montserrat-italic);
+  font-size: 2.5rem;
+  font-weight: 900;
+}
+
+h2 {
+  font-family: var(--font-montserrat);
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+p {
+  font-size: 1rem;
+}
+
+/*Rules for change input date icon color to white */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+input[type="date"] {
+  color: #ffffff;
+}
+
+input[type="date"]::-moz-calendar-box {
+  filter: invert(1);
+}
+
+input[type="date"]::-ms-clear {
+  display: none;
+}
+
+/*Rules for remove arrows from input number */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
   margin: 0;
 }
 
-html,
-body {
-  max-width: 100vw;
-  height: 100vh;
-  display: grid;
-  place-items: center;
-  overflow-x: hidden;
+input[type=number] {
+  appearance: textfield;
+  -moz-appearance: textfield;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+input[type="number"]::-ms-clear {
+  appearance: textfield;
+  -ms-appearance: textfield;
+}
+
+::placeholder {
+  font-family: var(--font-montserrat-base);
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(168, 162, 162, 0.8);
+  opacity: 1;
+}
+
+::-ms-input-placeholder {
+  color: rgba(168, 162, 162, 0.8);
+}
+
+@media (min-width: 761px) {
+  main {
+    padding-top: 150px;
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  p {
+    font-size: 1.5rem;
+  }
 }
