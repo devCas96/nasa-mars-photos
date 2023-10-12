@@ -20,6 +20,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  user-select: none;
 }
 
 /* Reapply the pointer cursor for anchor tags */

@@ -6,7 +6,6 @@
   justify-content: center;
   position: absolute;
   z-index: 1;
-  height: var(--default-header-height);
 }
 
 .header__logo {
@@ -14,7 +13,7 @@
   font-family: var(--font-montserrat-italic);
   font-size: 1.5rem;
   font-weight: 700;
-  margin: 10px 0;
+  margin: 1rem 0;
 }
 
 .header__title {
@@ -33,10 +32,10 @@
 }
 
 .header__item {
-  padding: 5px 10px;
+  padding: 10px 5px;
   border: 1.5px solid #fff;
-  border-radius: 10px;
-  background-color: transparent;
+  border-radius: 20px;
+  background-color: #0000;
   color: #fff;
   font-family: var(--font-montserrat-base);
   font-size: 1rem;
@@ -44,9 +43,47 @@
   cursor: pointer;
   position: relative;
   z-index: 0;
+  transition: all 0.2s linear;
 }
 
-.header__item:hover {
-  background-color: #fff;
-  color: #000;
+.header__item:hover,
+.header__item--active {
+  box-shadow: 0 1em 1em -0.4em rgb(135, 194, 221);
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-0.25em);
+  transition: all 0.2s linear;
+}
+
+.header__link {
+  padding: 10px 5px;
+}
+
+@media (min-width: 761px) {
+  .header__list {
+    gap: 1rem;
+  }
+
+  .header__item {
+    padding: 15px 10px;
+    border-radius: 25px;
+  }
+
+  .header__link {
+    padding: 15px 10px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header__list {
+    gap: 2rem;
+  }
+
+  .header__item {
+    padding: 15px 25px;
+    border-radius: 25px;
+  }
+
+  .header__link {
+    padding: 15px 25px;
+  }
 }

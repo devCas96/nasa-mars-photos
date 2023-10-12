@@ -1,13 +1,9 @@
-.wrapper {
-  width: 100%;
-}
-
 .toggle {
   position: relative;
   cursor: pointer;
   display: inline-block;
-  width: 180px;
-  height: 70px;
+  width: 160px;
+  height: 60px;
   background: rgba(9, 9, 9, 0.4);
   border-radius: 50px;
   transition: 500ms;
@@ -19,8 +15,8 @@
   display: inline-block;
   top: 3px;
   left: 6px;
-  width: 65px;
-  height: 65px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
   background: url('../../../../public/images/america.png') #0092ca;
   background-position: 0 0;
@@ -124,6 +120,7 @@
   from {
     background-position: 100% -50%;
   }
+
   to {
     background-position: 0 0;
   }
@@ -133,25 +130,25 @@
   background: #24d7f7;
 }
 
-.toggle--active > .toggle-button {
+.toggle--active>.toggle-button {
   background: #f7ffff;
   background-position: 100% -50%;
   animation: animatedPlanet 2s linear;
-  transform: translateX(102px);
+  transform: translateX(100px);
   box-shadow: 0 0 35px 5px rgba(255, 255, 255);
 }
 
-.toggle--active > .toggle-button > .crater {
+.toggle--active>.toggle-button>.crater {
   transform: rotate(-45deg) translateX(70px);
 }
 
-.toggle--active > .star {
+.toggle--active>.star {
   animation: move 2s infinite;
   transform: none;
   box-shadow: none;
 }
 
-.toggle--active > .star-1 {
+.toggle--active>.star-1 {
   width: 40px;
   height: 10px;
   border-radius: 10px;
@@ -161,7 +158,7 @@
   box-shadow: none;
 }
 
-.toggle--active > .star-2 {
+.toggle--active>.star-2 {
   width: 12px;
   height: 12px;
   background: #fff;
@@ -170,7 +167,7 @@
   box-shadow: -1px 0 2px 0 rgba(0, 0, 0, 0.1);
 }
 
-.toggle--active > .star-3 {
+.toggle--active>.star-3 {
   width: 16px;
   height: 16px;
   background: #fff;
@@ -179,7 +176,7 @@
   box-shadow: -1px 0 2px 0 rgba(0, 0, 0, 0.1);
 }
 
-.toggle--active > .star-4 {
+.toggle--active>.star-4 {
   width: 14px;
   height: 14px;
   background: #fff;
@@ -188,7 +185,7 @@
   box-shadow: -1px 0 2px 0 rgba(0, 0, 0, 0.1);
 }
 
-.toggle--active > .star-5 {
+.toggle--active>.star-5 {
   width: 60px;
   height: 15px;
   border-radius: 15px;
@@ -198,7 +195,7 @@
   box-shadow: none;
 }
 
-.toggle--active > .star-6 {
+.toggle--active>.star-6 {
   width: 18px;
   height: 18px;
   background: #fff;
@@ -208,7 +205,7 @@
   box-shadow: -1px 0 2px 0 rgba(0, 0, 0, 0.1);
 }
 
-.toggle--active > .star-7 {
+.toggle--active>.star-7 {
   width: 24px;
   height: 24px;
   background: #fff;
@@ -218,7 +215,7 @@
   box-shadow: -1px 0 2px 0 rgba(0, 0, 0, 0.1);
 }
 
-.toggle--active > .star-8 {
+.toggle--active>.star-8 {
   width: 21px;
   height: 21px;
   background: #fff;

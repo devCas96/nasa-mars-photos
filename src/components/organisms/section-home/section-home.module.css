@@ -6,5 +6,50 @@
   width: 95%;
   margin: 0 auto;
   text-align: center;
-  min-height: calc(100vh - 100px);
+  min-height: 100%;
+  animation: fade 1s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  position: relative;
+}
+
+.home::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: #61413c;
+  right: 0;
+  background: url('../../../../public/images/mars.webp') bottom/100% no-repeat;
+  height: auto;
+  background-position-y: 101%;
+  object-fit: contain;
+  aspect-ratio: 1/6;
+  z-index: -1;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 600px) {
+  .home::after {
+    aspect-ratio: 1/6;
+  }
+}
+
+@media (min-width: 1023px) {
+  .home {
+    width: 100%;
+    position: relative;
+  }
+
+  .home::after {
+    aspect-ratio: 1/1;
+    background-position-y: 115%;
+  }
 }
