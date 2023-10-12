@@ -58,10 +58,10 @@ This project is composed by:
 
 ## Preview
 
-![](https://raw.githubusercontent.com/devCas96/nasa-mars-photos/master/public/images/preview-home-desktop.png)
+![](/public/images/preview-home-desktop.png)
 
 -------------------------------------
-![](https://raw.githubusercontent.com/devCas96/nasa-mars-photos/master/public/images/preview-rover-mobile.png)
+![](/public/images/preview-rover-mobile.png)
 
 ## API
 
