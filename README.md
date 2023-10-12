@@ -1,4 +1,4 @@
-# NEXTJS NASA API PHOTOS
+# 🌔 NEXTJS NASA API PHOTOS
 
 Next Project focused on connecting the NASA API with a NextJS APP to get photos of some Mars rovers (Curiosity, Opportunity and Spirit).
 
@@ -8,6 +8,7 @@ Next Project focused on connecting the NASA API with a NextJS APP to get photos 
 - [Notes](#notes)
 - [Installation](#installation--dev-server)
 - [Prefecth data with SSG](#to-prefetching-data-with-ssg)
+- [Preview](#preview)
 - [API](#api)
 
 ## Technical decisions
@@ -36,9 +37,10 @@ This project is composed by:
 
 - API tested with **Jest**.
 
-### NOTES: 
+### 📝 NOTES: 
 - Prefetching of rovers data with Static Site Generation and after that, the fetching continues with *SWR* from the client.
 - I avoid using *Suspense API* because React recommends avoiding using it with libraries such as *Next.js* or *SWR*. [ Read more ](https://react.dev/blog/2022/03/29/react-v18#suspense-in-data-frameworks)
+- React Memo and useCallback used for prevent unnecessary re-renders.
 
 
 ## Installation & dev server
@@ -53,6 +55,13 @@ This project is composed by:
 ```bash
     pnpm build && pnpm next dev
 ```
+
+## Preview
+
+![](https://raw.githubusercontent.com/devCas96/nasa-mars-photos/master/public/images/preview-home-desktop.png)
+
+-------------------------------------
+![](https://raw.githubusercontent.com/devCas96/nasa-mars-photos/master/public/images/preview-rover-mobile.png)
 
 ## API
 
