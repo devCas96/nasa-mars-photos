@@ -15,18 +15,19 @@ const customLoader = ({ src }: { src: string }) => {
   return src;
 };
 
-const RoverImagesList = ({ children }: RoverImagesListProps) => {
+const RoverImagesList = React.memo(({ children }: RoverImagesListProps) => {
   return (
     <ul className={styles['rover-images__list']}>
       {React.Children.map(children, (child) => {
-        if (React.isValidElement(child) && (child.type as FC<HTMLElement>).displayName === 'RoverImageListItem') {
+        if (React.isValidElement(child) &&
+          ((child.type as FC<HTMLElement>).displayName === 'RoverImageListItem' || (child.type as FC<HTMLElement>).name === 'SkeletonList')) {
           return child;
         }
         return null;
       })}
     </ul>
   );
-};
+});
 
 const RoverImageListItem: React.FC<RoverImageListItemProps> = ({ photo }: RoverImageListItemProps) => {
   return (
@@ -34,11 +35,12 @@ const RoverImageListItem: React.FC<RoverImageListItemProps> = ({ photo }: RoverI
       <Image
         className={styles['rover-images__image']}
         loader={customLoader}
+        unoptimized
         src={photo.img_src}
         alt={`Camera ${photo.camera.full_name}`}
         width={300}
         height={300}
-        quality={100}
+        quality={90}
         placeholder='blur'
         blurDataURL={photo.base64}
       />
@@ -46,6 +48,7 @@ const RoverImageListItem: React.FC<RoverImageListItemProps> = ({ photo }: RoverI
   );
 };
 
+RoverImagesList.displayName = 'RoverImagesList';
 RoverImageListItem.displayName = 'RoverImageListItem';
 
 export { RoverImagesList, RoverImageListItem };

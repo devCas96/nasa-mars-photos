@@ -1,102 +1,78 @@
 'use client';
 
-import { FC, SyntheticEvent, useState } from 'react';
+import { SyntheticEvent, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
-import UseInfiniteLoading from '@/hooks/useInfiniteLoader/useInfiniteLoader';
+import useInfiniteLoading from '@/hooks/useInfiniteLoader';
+import { Rovers } from '@/constants/dummy';
+import useDebounce from '@/hooks/useDebounce';
 import { formatDate, getCurrentDate } from '@/utils/date-handler';
-import { PHOTOS_PER_PAGE } from '@/constants/global';
-import Loader from '@/components/atoms/loader/loader';
-import { RoverImageListItem, RoverImagesList } from '@/components/molecules/rover-images-list/rover-images-list';
-import SkeletonList from '@/components/molecules/skeleton-list/skeleton-list';
-import ErrorComponent from '@/components/organisms/section-error/section-error';
-import Toggle from '@/components/atoms/toggle/toggle';
+import RoverImagesResult from '@/components/molecules/rover-images-result/rover-images-result';
+import RoverImagesSearch from '@/components/molecules/rover-images-search/rover-images-search';
 import styles from './section-rover-images.module.css';
 
 interface IDateState {
   earth: string;
-  sun: number;
+  sun: string;
 }
 
-const SectionRoverImages: FC = () => {
+const SectionRoverImages = () => {
   const router = useRouter();
   const { slug } = router.query;
-  const rover = slug || 'curiosity';
+  const rover = slug || Rovers.CURIOSITY.toLowerCase();
   const [isSunTime, setDateType] = useState<boolean>(false);
+  const [camera, setCamera] = useState<string>('');
   const [date, setDate] = useState<IDateState>({
     earth: formatDate(getCurrentDate()),
-    sun: 0,
+    sun: '',
   });
 
+  const debouncedDateValue = useDebounce(date, 500);
   const { data: photos,
     isReachingEnd,
     size,
     setSize,
     isLoadingInitialData,
     isEmpty,
-    isLoadingMore
-  } = UseInfiniteLoading({ rover, date });
+    isLoading,
+    isLoadingMore,
+    error
+  } = useInfiniteLoading({ rover, date: debouncedDateValue, isSunTime, camera });
 
-  const setNewDate = (e: SyntheticEvent<HTMLInputElement>) => {
+  const handleSetNewDate = useCallback((e: SyntheticEvent<HTMLInputElement>) => {
     e.preventDefault();
     const $dateInput = e.target as HTMLInputElement;
-    setDate({ ...date, earth: $dateInput.value! });
-  };
+    const condionallyUpdate = { ...date, [`${isSunTime ? 'sun' : 'earth'}`]: $dateInput.value! };
+
+    setDate(condionallyUpdate);
+  }, [date, isSunTime]);
+
+  const handleSetNewCamera = useCallback((e: SyntheticEvent<HTMLSelectElement>) => {
+    e.preventDefault();
+    const $select = e.target as HTMLSelectElement;
+
+    setCamera($select.value!);
+  }, []);
 
   const handleLoadMore = () => setSize(size + 1);
 
   return (
     <section className={styles['section-images']}>
-      <Toggle
-        state={{
+
+      <RoverImagesSearch
+        toggleState={{
           value: isSunTime,
           handleClick: () => {
             setDateType(!isSunTime);
           },
         }}
-      />
-      {!isSunTime ? (
-        <input
-          className={styles['section-images__input']}
-          value={date.earth}
-          type='date'
-          name='dateearth'
-          onChange={setNewDate}
-        />
-      ) : (
-        <input
-          className={styles['section-images__input']}
-          defaultValue={date.sun}
-          type='number'
-          name='datesun'
-        />
-      )}
-      {isEmpty ? <ErrorComponent message='Ups! No results found with those search params.' /> :
-        <>
-          <RoverImagesList>
-            {
-              isLoadingInitialData ? <SkeletonList amount={PHOTOS_PER_PAGE} width={300} height={300} /> :
-                photos.map((photo) => (
-                  <RoverImageListItem photo={photo} key={photo.id} />
-                ))
-            }
-          </RoverImagesList>
+        dateInputState={{ value: date.earth, setter: handleSetNewDate }}
+        sunInputState={{ value: date.sun, setter: handleSetNewDate }}
+        cameraState={{ value: camera, setter: handleSetNewCamera }} />
 
-          <button
-            disabled={isLoadingMore || isReachingEnd}
-            onClick={handleLoadMore}
-            className={styles['section-images__button']}
-            style={{
-              pointerEvents: (isLoadingMore || isReachingEnd) ? 'none' : 'all'
-            }}
-          >
-            {isLoadingMore
-              ? <Loader />
-              : isReachingEnd
-                ? 'Congratulations, you reached the end.'
-                : 'Load more'}
-          </button>
-        </>
-      }
+      <RoverImagesResult isLoadingInitialData={isLoadingInitialData} isLoading={isLoading} isEmpty={isEmpty} data={photos} error={error}>
+        {!isEmpty && <RoverImagesResult.LoadMoreButton onClick={handleLoadMore} isReachingEnd={isReachingEnd} isLoadingMore={isLoadingMore} classes={styles['section-images__button']} />}
+      </RoverImagesResult>
+
     </section>
   );
 };
