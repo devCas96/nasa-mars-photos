@@ -2,6 +2,16 @@ import { createMocks, RequestOptions, RequestMethod } from 'node-mocks-http';
 import handlePhotos from '../photos';
 import { HttpStatus, HttpMethods } from '@/constants/http';
 import fetchMock from 'jest-fetch-mock';
+import { BackErrors } from '@/constants/errors';
+
+jest.mock('../../../utils/get-base64', () => ({
+  photoListToBase64: jest.fn().mockResolvedValue({
+    photos: [
+      { id: 1, url: 'photo1.jpg', base64: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjELaY/h8AAyYB4nI4OS8AAAAASUVORK5CYII=' },
+      { id: 2, url: 'photo2.jpg', base64: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjELaY/h8AAyYB4nI4OS8AAAAASUVORK5CYII=' },
+    ]
+  }),
+}));
 
 const handleBuildRequestOptions = (
   method: RequestMethod,
@@ -67,7 +77,7 @@ describe('Photos API test suite - /api/photos', () => {
     await handlePhotos(req, res);
     expect(res._getStatusCode()).toBe(HttpStatus.BAD_REQUEST);
     const responseData = JSON.parse(res._getData() as string);
-    expect(responseData.error).toBe('Invalid request parameters.');
+    expect(responseData.error).toBe(BackErrors.WRONG_PARAMS);
   });
 
   it('should handle when date type different than date value', async () => {

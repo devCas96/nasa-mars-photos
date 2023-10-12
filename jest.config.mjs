@@ -8,13 +8,7 @@ const createJestConfig = nextJest({
 const config = {
   collectCoverage: true,
   collectCoverageFrom: [
-    '**/*.{ts,tsx}',
-    '<rootDir>/src/components/**',
-    '<rootDir>/src/pages/api/**',
-    '!<rootDir>/src/constants/**',
-    '!<rootDir>/src/styles/**',
-    '!<rootDir>/src/utils/**',
-    '!<rootDir>/src/types/**',
+    '**/api/**/**.{js,jsx,ts,tsx}',
     '!**/*.d.ts',
     '!**/node_modules/**',
     '!<rootDir>/out/**',
