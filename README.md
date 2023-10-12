@@ -37,7 +37,7 @@ This project is composed by:
 
 - API tested with **Jest**.
 
-### 📝 NOTES: 
+### 📝NOTES: 
 - Prefetching of rovers data with Static Site Generation and after that, the fetching continues with *SWR* from the client.
 - I avoid using *Suspense API* because React recommends avoiding using it with libraries such as *Next.js* or *SWR*. [ Read more ](https://react.dev/blog/2022/03/29/react-v18#suspense-in-data-frameworks)
 - React Memo and useCallback used for prevent unnecessary re-renders.
