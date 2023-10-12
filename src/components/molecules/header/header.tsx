@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import Link from 'next/link';
 import styles from './header.module.css';
+import { useRouter } from 'next/router';
 interface HeaderProps {
   children: ReactNode;
 }
@@ -10,7 +11,7 @@ interface HeaderNavigationProps {
 
 const headerTitle = 'MARS ROVERS';
 const buildRoverUrl = (roverName: string): string =>
-  `/rover/${roverName.toLowerCase()}`;
+  `/rover/${roverName}`;
 
 const Header = ({ children }: HeaderProps) => (
   <header className={styles.header}>
@@ -21,19 +22,29 @@ const Header = ({ children }: HeaderProps) => (
   </header>
 );
 
-const HeaderNavigation = ({ items }: HeaderNavigationProps) => (
-  <nav className={styles.header__nav}>
-    <ul className={styles.header__list}>
-      {items.map((rover, index) => (
-        <li key={index} className={styles.header__item}>
-          <Link href={buildRoverUrl(rover)} className={styles.header__link}>
-            {rover}
-          </Link>
-        </li>
-      ))}
-    </ul>
-  </nav>
-);
+const HeaderNavigation = ({ items }: HeaderNavigationProps) => {
+
+  const router = useRouter();
+  const currentActivePage = router.query?.slug;
+
+  return (
+    <nav className={styles.header__nav}>
+      <ul className={styles.header__list}>
+        {items.map((rover, index) => {
+          const roverLowerCase = rover.toLowerCase();
+
+          return (
+            <li key={index} className={`${styles.header__item} ${currentActivePage === roverLowerCase ? styles['header__item--active'] : ''}`}>
+              <Link href={buildRoverUrl(roverLowerCase)} className={styles.header__link}>
+                {rover}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  );
+};
 
 Header.Navigation = HeaderNavigation;
 

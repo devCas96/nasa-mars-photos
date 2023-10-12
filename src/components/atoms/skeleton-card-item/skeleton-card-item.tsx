@@ -6,9 +6,9 @@ interface Props {
 }
 
 const SkeletonCardItem = ({ width, height }: Props) =>
-  <span
+  <li
     style={{ width, height }}
-    className={styles['skeleton']}
+    className={styles.skeleton}
   />;
 
 export default SkeletonCardItem;
